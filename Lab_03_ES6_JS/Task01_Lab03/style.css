@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --accent: #6c63ff;
+  --accent2: #a78bfa;
+  --gold: #f7c948;
+  --text: #e8eaf6;
+  --muted: #7b7fa8;
+  --border: rgba(108, 99, 255, 0.2);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 40px 20px;
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(108,99,255,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(167,139,250,0.08) 0%, transparent 50%);
+}
+
+header { text-align: center; margin-bottom: 50px; }
+
+header .eyebrow {
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--accent2); margin-bottom: 12px;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 46px);
+  color: var(--text); line-height: 1.1;
+}
+
+header h1 span { color: var(--accent2); }
+
+.tagline { margin-top: 10px; font-size: 13px; color: var(--muted); }
+
+.concepts { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+.concept-badge {
+  background: rgba(108,99,255,0.15);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: 11px; color: var(--accent2); letter-spacing: 1px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideUp 0.5s ease both;
+}
+
+.card:nth-child(2) { animation-delay: 0.12s; }
+.card:nth-child(3) { animation-delay: 0.24s; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+.card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(108,99,255,0.22); }
+
+.card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+
+.avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; flex-shrink: 0;
+}
+
+.card-header h2 { font-size: 18px; font-weight: 600; color: var(--text); }
+.student-id { font-size: 11px; color: var(--muted); margin-top: 3px; letter-spacing: 1px; }
+
+.info-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px;
+}
+
+.label { color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+.value { font-weight: 600; color: var(--text); }
+
+.semester-pill {
+  background: rgba(247,201,72,0.15); border: 1px solid rgba(247,201,72,0.3);
+  color: var(--gold); padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+
+.courses-section { margin-top: 18px; }
+.courses-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.course-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.course-tag {
+  background: var(--surface2); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px; padding: 4px 11px; font-size: 11px; color: var(--accent2); font-weight: 500;
+}
+
+.summary {
+  margin-top: 16px; font-size: 12px; color: var(--muted);
+  line-height: 1.6; font-style: italic;
+  border-left: 2px solid var(--accent); padding-left: 10px;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 2 – Online Shopping Cart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">Lab Task 2</p>
+    <h1>Online <span>Shopping</span> Cart</h1>
+    <p class="tagline">Rest Operator · Spread Operator · Array Destructuring</p>
+    <div class="concepts">
+      <span class="concept-badge">...Rest</span>
+      <span class="concept-badge">...Spread</span>
+      <span class="concept-badge">Destructuring</span>
+      <span class="concept-badge">Arrays</span>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- Left Panel: Cart Items -->
+    <div class="panel">
+      <div class="panel-title">🛍️ Cart Items</div>
+
+      <div id="cartItems">
+        <!-- Rows injected by script.js -->
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-row">
+          <span class="stat-label">Total Items</span>
+          <span class="stat-value" id="totalItems"></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Total Price</span>
+          <span class="stat-value" id="totalPrice"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Destructuring Results -->
+    <div class="panel">
+      <div class="panel-title">📦 Destructuring Result</div>
+
+      <div class="highlight-box">
+        <div class="hl-label">First Item (Destructured)</div>
+        <div class="hl-value" id="firstName"></div>
+        <div class="hl-price" id="firstPrice"></div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="hl-label">Remaining Items (...rest)</div>
+        <div class="rest-tags" id="restItems">
+          <!-- Tags injected by script.js -->
+        </div>
+      </div>
+
+      <div class="clone-note">
+        <span class="icon">✅</span>
+        <span>
+          Cloned Cart via Spread has <strong id="cloneCount"></strong> items — fully independent copy.
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

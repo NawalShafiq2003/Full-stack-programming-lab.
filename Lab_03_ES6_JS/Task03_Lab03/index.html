@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 3 – Async Data Loader</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">Lab Task 3</p>
+    <h1>Asynchronous <span>Data Loader</span></h1>
+    <p class="tagline">Promises · setTimeout · .then() · .catch() · .finally()</p>
+    <div class="concepts">
+      <span class="concept-badge">new Promise()</span>
+      <span class="concept-badge">resolve / reject</span>
+      <span class="concept-badge">.then()</span>
+      <span class="concept-badge">.catch()</span>
+      <span class="concept-badge">setTimeout</span>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="toggle-group">
+        <label class="toggle-label">
+          <label class="switch">
+            <input type="checkbox" id="failToggle" />
+            <span class="slider"></span>
+          </label>
+          Simulate Server Failure
+        </label>
+        <span class="fail-text" id="failLabel">OFF — will resolve</span>
+      </div>
+
+      <button class="load-btn" id="loadBtn" onclick="loadData()">
+        ▶ Load Users (3s delay)
+      </button>
+    </div>
+
+    <!-- Status Area -->
+    <div id="status">
+      <span class="idle-text">Click "Load Users" to start the Promise...</span>
+    </div>
+
+    <!-- User Cards -->
+    <div id="userList"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+  <script>
+    // Toggle label text when checkbox changes
+    document.getElementById("failToggle").addEventListener("change", function () {
+      document.getElementById("failLabel").textContent = this.checked
+        ? "ON — will reject ⚠️"
+        : "OFF — will resolve";
+    });
+  </script>
+
+</body>
+</html>

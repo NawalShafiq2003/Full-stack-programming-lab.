@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - HotSpring Portable Spas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="page-wrapper">
+  <div class="page-inner">
+    <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> My Account</div>
+    <h1 class="page-title">Login Or Creat Account</h1>
+
+    <div class="content-box">
+      <div class="two-col-form">
+        <!-- LOGIN -->
+        <div class="form-divider">
+          <div class="form-section-title">User Login Details</div>
+          <p class="form-note">Please sign in below with your login information.</p>
+          <p class="form-note" style="color:#cc0000;">*Required Fields</p>
+
+          <form id="login-form" novalidate>
+            <div class="form-group">
+              <label>Email <span class="req">*</span></label>
+              <div>
+                <input type="email" name="email" class="form-control" required placeholder="">
+                <span class="error-msg"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Password <span class="req">*</span></label>
+              <div>
+                <input type="password" name="password" class="form-control" required placeholder="">
+                <span class="error-msg"></span>
+              </div>
+            </div>
+            <div style="margin-left:150px;margin-bottom:12px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#555;text-align:left;width:auto;min-width:auto;padding:0;">
+                <input type="checkbox" name="remember"> Remember me th next time I visit
+              </label>
+            </div>
+            <div style="margin-left:150px;display:flex;align-items:center;gap:15px;">
+              <button type="submit" class="btn btn-red">SIGN IN</button>
+              <a href="forgot_password.html" style="font-size:12px;color:#0066cc;">Forgor your password?</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- NEW CUSTOMER -->
+        <div class="new-customer-benefits" style="padding-left:20px;">
+          <div class="form-section-title">New Customer</div>
+          <p style="font-size:13px;color:#555;margin-bottom:10px;">As a registered Att.com customer you can:</p>
+          <ul>
+            <li>Store billing &amp; shipping information</li>
+            <li>Check your order status</li>
+            <li>Track your delivery Status</li>
+            <li>View your order history</li>
+          </ul>
+          <a href="register.html" class="btn btn-red">CREATE NEW ACCOUNT</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATED CAROUSEL -->
+    <div class="content-box">
+      <h3 class="section-title" style="font-size:15px;">Customers Who Viewed This Item Also</h3>
+      <div class="related-carousel">
+        <button class="carousel-btn prev-btn">&#8249;</button>
+        <div class="related-track">
+          <div class="related-item"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=100&h=80&fit=crop" alt="Product"><div class="r-price">$2,549.15</div><div class="r-name">Bosch 22 Cu. Ft Stainless Refrigerator</div><div class="r-code">B22CS30SNS5</div></div>
+          <div class="related-item"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=100&h=80&fit=crop" alt="Product"><div class="r-price">$2,549.15</div><div class="r-name">Bosch 22 Cu. Ft Stainless Refrigerator</div><div class="r-code">B22CS30SNS5</div></div>
+          <div class="related-item"><img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=100&h=80&fit=crop" alt="Product"><div class="r-price">$2,549.15</div><div class="r-name">Bosch 22 Cu. Ft Stainless Refrigerator</div><div class="r-code">B22CS30SNS5</div></div>
+          <div class="related-item"><img src="https://images.unsplash.com/photo-1570195065490-f4f6dc3c5e00?w=100&h=80&fit=crop" alt="Product"><div class="r-price">$2,549.15</div><div class="r-name">Bosch 22 Cu. Ft Stainless Refrigerator</div><div class="r-code">B22CS30SNS5</div></div>
+        </div>
+        <button class="carousel-btn next-btn">&#8250;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/main.js"></script>
+<script>HotSpring.init('');</script>
+</body>
+</html>

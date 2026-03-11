@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Shipping Address - HotSpring Portable Spas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="page-wrapper">
+  <div class="page-inner">
+    <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <a href="my_account.html">User Account</a> <span>›</span> My Account</div>
+    <h1 class="page-title">Edit Shipping Address</h1>
+
+    <div class="content-box">
+      <p class="form-note">Please fill the form bellow to update your Profile details.</p>
+      <p class="form-note" style="color:#cc0000;">*Required Fields</p>
+
+      <form id="edit-shipping-form" novalidate>
+        <div class="form-group">
+          <label>First Name <span class="req">*</span></label>
+          <div><input type="text" name="first_name" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>Last Name <span class="req">*</span></label>
+          <div><input type="text" name="last_name" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>Email <span class="req">*</span></label>
+          <div><input type="email" name="email" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>Phone <span class="req">*</span></label>
+          <div><input type="text" name="phone" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>City <span class="req">*</span></label>
+          <div><input type="text" name="city" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>State <span class="req">*</span></label>
+          <div><input type="text" name="state" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>Zip Code <span class="req">*</span></label>
+          <div><input type="text" name="zip_code" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div class="form-group">
+          <label>Country <span class="req">*</span></label>
+          <div><input type="text" name="country" class="form-control" required><span class="error-msg"></span></div>
+        </div>
+        <div style="margin-left:150px;">
+          <button type="submit" class="btn btn-red">UPDATE ADDRESS</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/main.js"></script>
+<script>HotSpring.init('');</script>
+</body>
+</html>

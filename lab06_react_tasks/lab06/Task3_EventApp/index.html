@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Task 3 – Interactive Buttons App</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 2rem;
+    transition: background 0.5s;
+  }
+  .page {
+    width: 100%;
+    max-width: 540px;
+  }
+  .heading {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .sub {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 2rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .action-card {
+    padding: 24px 20px;
+    border-radius: 18px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    user-select: none;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .action-card:active { transform: scale(0.96); }
+  .card-emoji { font-size: 28px; margin-bottom: 8px; }
+  .card-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; transition: color 0.2s; }
+  .card-hint  { font-size: 11px; color: #aaa; font-family: monospace; }
+  /* individual card accent colors */
+  .c-blue  { border-color: #bfdbfe; }
+  .c-blue .card-title  { color: #1d4ed8; }
+  .c-green { border-color: #bbf7d0; }
+  .c-green .card-title { color: #15803d; }
+  .c-red   { border-color: #fecaca; }
+  .c-red .card-title   { color: #dc2626; }
+  .c-amber { border-color: #fde68a; }
+  .c-amber .card-title { color: #b45309; }
+  /* hover card */
+  .c-hover { border-color: #e9d5ff; }
+  /* message area */
+  .msg-area {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #d1d5db;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+  .dot.active { background: #22c55e; }
+  .msg-text {
+    font-size: 14px;
+    color: #374151;
+    flex: 1;
+  }
+  .event-badge {
+    font-size: 10px;
+    font-family: monospace;
+    padding: 3px 8px;
+    background: #f3f4f6;
+    border-radius: 99px;
+    color: #6b7280;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { useState } = React;
+
+  const BG_COLORS = ['#fff7ed','#f0fdf4','#eff6ff','#fdf4ff','#fefce8','#fff1f2'];
+
+  function Actions() {
+    const [message,    setMessage]    = useState('');
+    const [eventName,  setEventName]  = useState('');
+    const [bgIdx,      setBgIdx]      = useState(-1);
+    const [hoverActive, setHoverActive] = useState(false);
+    const hasMsg = !!message;
+
+    const bodyBg = bgIdx >= 0 ? BG_COLORS[bgIdx] : '#f9fafb';
+
+    const showMessage = () => {
+      setMessage('Hello! Button clicked — message displayed via React state.');
+      setEventName('onClick');
+    };
+
+    const changeBg = () => {
+      const next = (bgIdx + 1) % BG_COLORS.length;
+      setBgIdx(next);
+      setMessage(`Background changed to color ${next + 1} of ${BG_COLORS.length}.`);
+      setEventName('onClick');
+    };
+
+    const showAlert = () => {
+      setMessage('alert() was triggered by onClick event handler.');
+      setEventName('onClick');
+      setTimeout(() => alert('🔔 Alert from React event handler!\nonClick event fired.'), 50);
+    };
+
+    const onHoverEnter = () => {
+      setHoverActive(true);
+      setMessage('Mouse entered the card — text color changed via onMouseOver.');
+      setEventName('onMouseOver');
+    };
+
+    const onHoverLeave = () => {
+      setHoverActive(false);
+      setMessage('Mouse left — color reverted via onMouseOut.');
+      setEventName('onMouseOut');
+    };
+
+    return (
+      <div className="page" style={{ '--body-bg': bodyBg }}>
+        <style>{`body { background: ${bodyBg}; }`}</style>
+
+        <h1 className="heading">Interactive Buttons</h1>
+        <p className="sub">Lab Task 3 — Event Handling: onClick · onMouseOver · onMouseOut</p>
+
+        <div className="grid">
+          {/* Button 1 */}
+          <div className="action-card c-blue" onClick={showMessage}>
+            <div className="card-emoji">💬</div>
+            <div className="card-title">Show Message</div>
+            <div className="card-hint">onClick</div>
+          </div>
+
+          {/* Button 2 */}
+          <div className="action-card c-green" onClick={changeBg}>
+            <div className="card-emoji">🎨</div>
+            <div className="card-title">Change Background</div>
+            <div className="card-hint">onClick</div>
+          </div>
+
+          {/* Button 3 */}
+          <div className="action-card c-red" onClick={showAlert}>
+            <div className="card-emoji">🔔</div>
+            <div className="card-title">Show Alert</div>
+            <div className="card-hint">onClick</div>
+          </div>
+
+          {/* Button 4 – hover */}
+          <div
+            className="action-card c-hover"
+            onMouseOver={onHoverEnter}
+            onMouseOut={onHoverLeave}
+          >
+            <div className="card-emoji">🖱️</div>
+            <div
+              className="card-title"
+              style={{ color: hoverActive ? '#7c3aed' : '#b45309' }}
+            >
+              Hover Me
+            </div>
+            <div className="card-hint">onMouseOver</div>
+          </div>
+        </div>
+
+        {/* Message area */}
+        <div className="msg-area">
+          <div className={`dot ${hasMsg ? 'active' : ''}`} />
+          <span className="msg-text">
+            {message || 'Click or hover a card to fire an event...'}
+          </span>
+          {eventName && <span className="event-badge">{eventName}</span>}
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Actions />);
+</script>
+</body>
+</html>

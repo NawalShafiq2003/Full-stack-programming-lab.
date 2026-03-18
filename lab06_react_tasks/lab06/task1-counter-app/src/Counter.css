@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.counter-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 48px 56px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  min-width: 340px;
+}
+
+.counter-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.counter-subtitle {
+  font-size: 13px;
+  color: #8892a4;
+  margin-bottom: 36px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.counter-display {
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+  color: #2563eb;
+  transition: color 0.3s, transform 0.15s;
+}
+
+.counter-display.zero {
+  color: #94a3b8;
+}
+
+.counter-display.high {
+  color: #7c3aed;
+}
+
+.counter-hint {
+  font-size: 12px;
+  color: #f59e0b;
+  margin-bottom: 8px;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  margin-bottom: 28px;
+}
+
+.btn {
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-increment {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.btn-increment:hover:not(:disabled) {
+  background: #bbf7d0;
+}
+
+.btn-decrement {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.btn-decrement:hover:not(:disabled) {
+  background: #fecaca;
+}
+
+.btn-reset {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.btn-reset:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.state-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.state-label {
+  color: #94a3b8;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #2563eb;
+  font-weight: 600;
+}

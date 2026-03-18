@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Task 4 – React Routing App</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8fafc; color: #1e293b; }
+
+  /* NAV */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand { font-size: 18px; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
+  .brand span { color: #6366f1; }
+  .nav-links { display: flex; gap: 4px; align-items: center; }
+  .nav-link {
+    padding: 7px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #64748b;
+    border: none;
+    background: transparent;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link:hover { background: #f1f5f9; color: #0f172a; }
+  .nav-link.active { background: #ede9fe; color: #6366f1; font-weight: 600; }
+  .cart-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #f1f5f9;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    border: none;
+  }
+  .cart-num {
+    background: #6366f1;
+    color: #fff;
+    border-radius: 99px;
+    width: 18px; height: 18px;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* PAGE WRAPPER */
+  .page { max-width: 960px; margin: 0 auto; padding: 3rem 2rem; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .hero { text-align: center; padding: 4rem 2rem; }
+  .hero h1 { font-size: 48px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 span { color: #6366f1; }
+  .hero p { font-size: 18px; color: #64748b; max-width: 480px; margin: 0 auto 2rem; line-height: 1.6; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { padding: 13px 28px; background: #6366f1; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-secondary { padding: 13px 28px; background: #fff; color: #1e293b; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 0.15s; }
+  .btn-secondary:hover { border-color: #6366f1; }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 3rem; }
+  .feature-card { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; text-align: center; }
+  .feature-icon { font-size: 28px; margin-bottom: 8px; }
+  .feature-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .feature-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+
+  /* ABOUT */
+  .about-card { background: #fff; border-radius: 20px; padding: 2.5rem; border: 1px solid #e2e8f0; margin-bottom: 16px; }
+  .about-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+  .about-card p { font-size: 15px; color: #475569; line-height: 1.75; margin-bottom: 12px; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 1.5rem; }
+  .team-member { background: #f8fafc; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #e2e8f0; }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; margin: 0 auto 8px; }
+  .member-name { font-size: 13px; font-weight: 600; color: #1e293b; }
+  .member-role { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+  /* CONTACT */
+  .contact-wrapper { max-width: 520px; }
+  .section-title { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+  .section-sub { font-size: 14px; color: #64748b; margin-bottom: 2rem; }
+  .form-card { background: #fff; border-radius: 20px; padding: 2rem; border: 1px solid #e2e8f0; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 6px; }
+  .field input, .field textarea {
+    width: 100%; padding: 11px 14px; font-size: 14px;
+    border: 1.5px solid #e2e8f0; border-radius: 10px;
+    font-family: inherit; color: #0f172a; background: #fafafa;
+    outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .field input:focus, .field textarea:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); background: #fff; }
+  .field textarea { height: 100px; resize: vertical; }
+  .err { border-color: #ef4444 !important; }
+  .err-msg { font-size: 12px; color: #ef4444; margin-top: 4px; }
+  .success-banner { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 16px 20px; color: #15803d; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+
+  /* PRODUCTS */
+  .products-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .product-card { background: #fff; border-radius: 16px; padding: 18px; border: 1px solid #e2e8f0; transition: box-shadow 0.2s, transform 0.15s; }
+  .product-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .product-emoji { font-size: 32px; margin-bottom: 10px; }
+  .product-name { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .product-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 12px; }
+  .product-price { font-size: 18px; font-weight: 800; color: #6366f1; margin-bottom: 12px; }
+  .add-btn {
+    width: 100%; padding: 9px;
+    background: #6366f1; color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: background 0.15s, transform 0.1s;
+  }
+  .add-btn:hover { background: #4f46e5; }
+  .add-btn:active { transform: scale(0.97); }
+  .add-btn.added { background: #22c55e; }
+  .remove-btn {
+    width: 100%; padding: 9px; margin-top: 6px;
+    background: transparent; color: #ef4444;
+    border: 1.5px solid #fecaca; border-radius: 10px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .remove-btn:hover { background: #fff1f2; }
+
+  /* CART SIDEBAR */
+  .cart-sheet {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 320px;
+    background: #fff; border-left: 1px solid #e2e8f0;
+    padding: 1.5rem; overflow-y: auto; z-index: 200;
+    transform: translateX(100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    box-shadow: -4px 0 32px rgba(0,0,0,0.08);
+  }
+  .cart-sheet.open { transform: translateX(0); }
+  .cart-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+    z-index: 190; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+  .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .cart-title { font-size: 18px; font-weight: 800; }
+  .close-btn { background: #f1f5f9; border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 16px; }
+  .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+  .cart-item-name { font-weight: 600; color: #0f172a; }
+  .cart-item-qty { color: #94a3b8; font-size: 12px; }
+  .cart-item-price { font-weight: 700; color: #6366f1; }
+  .cart-total { background: #f8fafc; border-radius: 12px; padding: 14px; margin-top: 1.5rem; }
+  .cart-total-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+  .cart-total-label { color: #64748b; }
+  .cart-total-val { font-weight: 700; font-size: 16px; }
+  .checkout-btn { width: 100%; padding: 13px; background: #6366f1; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; transition: opacity 0.15s; }
+  .checkout-btn:hover { opacity: 0.9; }
+
+  /* 404 */
+  .not-found { text-align: center; padding: 5rem 2rem; }
+  .not-found .code { font-size: 120px; font-weight: 900; color: #e2e8f0; line-height: 1; }
+  .not-found h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .not-found p { color: #94a3b8; font-size: 15px; margin-bottom: 2rem; }
+
+  /* FOOTER */
+  footer { background: #fff; border-top: 1px solid #e2e8f0; text-align: center; padding: 1.5rem; font-size: 13px; color: #94a3b8; margin-top: 4rem; }
+
+  @media(max-width: 640px) {
+    .features { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .nav-link span { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { useState, useEffect } = React;
+
+  const PRODUCTS = [
+    { id: 1, emoji: '💻', name: 'Laptop Pro X',       desc: 'High-performance laptop built for developers and creators.',       price: 1299, priceStr: '$1,299' },
+    { id: 2, emoji: '🖱️', name: 'Wireless Mouse',     desc: 'Ergonomic design with 12-month battery life and quiet clicks.',    price: 49,   priceStr: '$49'   },
+    { id: 3, emoji: '⌨️', name: 'Mech Keyboard',      desc: 'Tactile brown switches for fast, satisfying typing.',              price: 129,  priceStr: '$129'  },
+    { id: 4, emoji: '🖥️', name: '4K Monitor',         desc: '27" 4K HDR display with USB-C and 144 Hz refresh rate.',          price: 399,  priceStr: '$399'  },
+    { id: 5, emoji: '🎧', name: 'Noise-Cancel Headphones', desc: 'Studio-grade audio with active noise cancellation.',          price: 249,  priceStr: '$249'  },
+    { id: 6, emoji: '📦', name: 'USB-C Hub',           desc: '7-in-1 hub: HDMI, SD, USB-A × 3, PD charging, Ethernet.',        price: 59,   priceStr: '$59'   },
+  ];
+
+  const TEAM = [
+    { initials: 'AK', name: 'Ali Khan',    role: 'Founder & CEO',     bg: '#ede9fe', color: '#6d28d9' },
+    { initials: 'SB', name: 'Sara Bilal',  role: 'Lead Engineer',     bg: '#dcfce7', color: '#15803d' },
+    { initials: 'OM', name: 'Omar Malik',  role: 'Product Designer',  bg: '#fef3c7', color: '#b45309' },
+  ];
+
+  /* ─── Simple Hash Router ─── */
+  function useRoute() {
+    const [route, setRoute] = useState(window.location.hash || '#/');
+    useEffect(() => {
+      const handler = () => setRoute(window.location.hash || '#/');
+      window.addEventListener('hashchange', handler);
+      return () => window.removeEventListener('hashchange', handler);
+    }, []);
+    const navigate = (path) => { window.location.hash = path; };
+    return { route, navigate };
+  }
+
+  /* ─── Link ─── */
+  function Link({ to, children, className }) {
+    return (
+      <a href={to} className={className} onClick={e => { e.preventDefault(); window.location.hash = to; }}>
+        {children}
+      </a>
+    );
+  }
+
+  /* ─── Pages ─── */
+  function HomePage({ navigate }) {
+    return (
+      <div className="page">
+        <div className="hero">
+          <h1>Shop Smarter.<br/><span>Build Better.</span></h1>
+          <p>Premium developer tools and accessories, curated by engineers for engineers.</p>
+          <div className="hero-btns">
+            <button className="btn-primary" onClick={() => navigate('#/products')}>Browse Products →</button>
+            <button className="btn-secondary" onClick={() => navigate('#/about')}>Our Story</button>
+          </div>
+        </div>
+        <div className="features">
+          {[
+            { icon: '🚀', title: 'Fast Shipping', desc: '2-day delivery on all orders over $50.' },
+            { icon: '🛡️', title: '2-Year Warranty', desc: 'Every product backed by our quality guarantee.' },
+            { icon: '♻️', title: 'Easy Returns', desc: '30-day hassle-free return policy.' },
+          ].map(f => (
+            <div className="feature-card" key={f.title}>
+              <div className="feature-icon">{f.icon}</div>
+              <div className="feature-title">{f.title}</div>
+              <div className="feature-desc">{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function AboutPage() {
+    return (
+      <div className="page">
+        <div className="about-card">
+          <h2>About ReactStore</h2>
+          <p>Founded in 2024 by a group of software engineers who wanted to make premium developer tools accessible to everyone. We hand-test every product before it earns a spot in our catalog.</p>
+          <p>We believe great tools make great developers. Our mission is to provide high-quality, reliable equipment that helps teams build faster and work smarter.</p>
+          <h3 style={{fontSize:'16px',fontWeight:700,marginTop:'1.5rem',marginBottom:'0.5rem'}}>Meet the Team</h3>
+          <div className="team-grid">
+            {TEAM.map(m => (
+              <div className="team-member" key={m.initials}>
+                <div className="avatar" style={{background: m.bg, color: m.color}}>{m.initials}</div>
+                <div className="member-name">{m.name}</div>
+                <div className="member-role">{m.role}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="about-card">
+          <h2>Our Values</h2>
+          {[
+            ['🎯 Quality First', 'We only stock products we use and trust ourselves.'],
+            ['🤝 Customer Focus', 'Real support from engineers who understand your needs.'],
+            ['🌍 Sustainability', 'Carbon-neutral shipping on every order since 2024.'],
+          ].map(([title, desc]) => (
+            <div key={title} style={{marginBottom:'12px'}}>
+              <strong style={{fontSize:'14px'}}>{title}</strong>
+              <p style={{fontSize:'14px',marginTop:'2px'}}>{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function ContactPage() {
+    const [form, setForm] = useState({ name: '', email: '', message: '' });
+    const [errors, setErrors] = useState({});
+    const [sent, setSent] = useState(false);
+
+    const set = (k, v) => { setForm(f => ({...f, [k]: v})); setErrors(e => ({...e, [k]: ''})); };
+
+    const submit = () => {
+      const e = {};
+      if (!form.name.trim())    e.name    = 'Name is required';
+      if (!form.email.trim())   e.email   = 'Email is required';
+      else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = 'Enter a valid email';
+      if (!form.message.trim()) e.message = 'Message is required';
+      if (Object.keys(e).length) { setErrors(e); return; }
+      setSent(true);
+      setForm({ name: '', email: '', message: '' });
+    };
+
+    return (
+      <div className="page">
+        <div className="contact-wrapper">
+          <h1 className="section-title">Contact Us</h1>
+          <p className="section-sub">We'd love to hear from you. Send us a message and we'll respond within 24 hours.</p>
+          <div className="form-card">
+            {sent ? (
+              <div className="success-banner">✅ Message sent! We'll get back to you soon.</div>
+            ) : (
+              <>
+                <div className="field">
+                  <label>Name</label>
+                  <input type="text" placeholder="Your full name" value={form.name} className={errors.name ? 'err' : ''} onChange={e => set('name', e.target.value)} />
+                  {errors.name && <p className="err-msg">{errors.name}</p>}
+                </div>
+                <div className="field">
+                  <label>Email</label>
+                  <input type="email" placeholder="your@email.com" value={form.email} className={errors.email ? 'err' : ''} onChange={e => set('email', e.target.value)} />
+                  {errors.email && <p className="err-msg">{errors.email}</p>}
+                </div>
+                <div className="field">
+                  <label>Message</label>
+                  <textarea placeholder="How can we help?" value={form.message} className={errors.message ? 'err' : ''} onChange={e => set('message', e.target.value)} />
+                  {errors.message && <p className="err-msg">{errors.message}</p>}
+                </div>
+                <button className="btn-primary" style={{width:'100%',padding:'13px',fontSize:'15px'}} onClick={submit}>Send Message →</button>
+              </>
+            )}
+            {sent && (
+              <button className="btn-secondary" style={{width:'100%',padding:'12px',marginTop:'12px',fontSize:'14px',cursor:'pointer'}} onClick={() => setSent(false)}>
+                Send Another Message
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function ProductsPage() {
+    const [cart, setCart] = useState({});
+    const [cartOpen, setCartOpen] = useState(false);
+
+    const addToCart    = id => setCart(c => ({...c, [id]: (c[id] || 0) + 1}));
+    const removeFromCart = id => setCart(c => { const n = {...c}; delete n[id]; return n; });
+    const totalItems   = Object.values(cart).reduce((a, b) => a + b, 0);
+    const totalPrice   = Object.entries(cart).reduce((sum, [id, qty]) => sum + PRODUCTS.find(p => p.id === +id).price * qty, 0);
+
+    return (
+      <div className="page">
+        {/* Cart overlay */}
+        <div className={`cart-overlay ${cartOpen ? 'open' : ''}`} onClick={() => setCartOpen(false)} />
+
+        {/* Cart sidebar */}
+        <div className={`cart-sheet ${cartOpen ? 'open' : ''}`}>
+          <div className="cart-header">
+            <span className="cart-title">🛒 Your Cart</span>
+            <button className="close-btn" onClick={() => setCartOpen(false)}>✕</button>
+          </div>
+          {totalItems === 0 ? (
+            <p style={{color:'#94a3b8',fontSize:'14px'}}>Your cart is empty.</p>
+          ) : (
+            <>
+              {Object.entries(cart).map(([id, qty]) => {
+                const p = PRODUCTS.find(p => p.id === +id);
+                return (
+                  <div className="cart-item" key={id}>
+                    <div>
+                      <div className="cart-item-name">{p.emoji} {p.name}</div>
+                      <div className="cart-item-qty">Qty: {qty}</div>
+                    </div>
+                    <div className="cart-item-price">${(p.price * qty).toLocaleString()}</div>
+                  </div>
+                );
+              })}
+              <div className="cart-total">
+                <div className="cart-total-row">
+                  <span className="cart-total-label">Items ({totalItems})</span>
+                  <span></span>
+                </div>
+                <div className="cart-total-row">
+                  <span className="cart-total-label">Total</span>
+                  <span className="cart-total-val">${totalPrice.toLocaleString()}</span>
+                </div>
+              </div>
+              <button className="checkout-btn" onClick={() => { alert('Checkout clicked! (Demo only)'); }}>
+                Checkout →
+              </button>
+            </>
+          )}
+        </div>
+
+        <div className="products-header">
+          <div>
+            <h1 className="section-title">Products</h1>
+            <p style={{fontSize:'14px',color:'#64748b'}}>Developer tools & accessories</p>
+          </div>
+          <button className="cart-badge" onClick={() => setCartOpen(true)}>
+            🛒 Cart
+            {totalItems > 0 && <span className="cart-num">{totalItems}</span>}
+          </button>
+        </div>
+
+        <div className="product-grid">
+          {PRODUCTS.map(p => {
+            const inCart = !!cart[p.id];
+            return (
+              <div className="product-card" key={p.id}>
+                <div className="product-emoji">{p.emoji}</div>
+                <div className="product-name">{p.name}</div>
+                <div className="product-desc">{p.desc}</div>
+                <div className="product-price">{p.priceStr}</div>
+                <button className={`add-btn ${inCart ? 'added' : ''}`} onClick={() => addToCart(p.id)}>
+                  {inCart ? `✓ In Cart (${cart[p.id]})` : 'Add to Cart'}
+                </button>
+                {inCart && (
+                  <button className="remove-btn" onClick={() => removeFromCart(p.id)}>Remove</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  function NotFoundPage({ navigate }) {
+    return (
+      <div className="not-found">
+        <div className="code">404</div>
+        <h2>Page Not Found</h2>
+        <p>The page you're looking for doesn't exist.</p>
+        <button className="btn-primary" onClick={() => navigate('#/')}>← Back to Home</button>
+      </div>
+    );
+  }
+
+  /* ─── App Shell ─── */
+  function App() {
+    const { route, navigate } = useRoute();
+
+    const navItems = [
+      { label: 'Home',     path: '#/'         },
+      { label: 'About',    path: '#/about'    },
+      { label: 'Contact',  path: '#/contact'  },
+      { label: 'Products', path: '#/products' },
+    ];
+
+    const renderPage = () => {
+      if (route === '#/' || route === '')          return <HomePage navigate={navigate} />;
+      if (route === '#/about')                     return <AboutPage />;
+      if (route === '#/contact')                   return <ContactPage />;
+      if (route === '#/products')                  return <ProductsPage />;
+      return <NotFoundPage navigate={navigate} />;
+    };
+
+    return (
+      <>
+        <nav>
+          <div className="brand">React<span>Store</span></div>
+          <div className="nav-links">
+            {navItems.map(item => (
+              <a
+                key={item.path}
+                href={item.path}
+                className={`nav-link ${route === item.path ? 'active' : ''}`}
+                onClick={e => { e.preventDefault(); navigate(item.path); }}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+
+        {renderPage()}
+
+        <footer>
+          © 2024 ReactStore — Lab Task 4: Multi-Page Website using React Routing &nbsp;|&nbsp;
+          Built with React + react-router-dom concepts
+        </footer>
+      </>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

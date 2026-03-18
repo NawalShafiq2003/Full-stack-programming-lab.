@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Task 2 – User Form App</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 2rem;
+  }
+  .wrapper {
+    width: 100%;
+    max-width: 460px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+  }
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .card-sub {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 2rem;
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: #1a1a2e;
+    background: #fafafa;
+  }
+  input:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    background: #fff;
+  }
+  .error { border-color: #ef4444 !important; }
+  .error-msg { font-size: 12px; color: #ef4444; margin-top: 4px; }
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 8px;
+    letter-spacing: 0.03em;
+  }
+  .submit-btn:hover { opacity: 0.92; }
+  .submit-btn:active { transform: scale(0.98); }
+  .result {
+    margin-top: 2rem;
+    background: #f5f3ff;
+    border: 1.5px solid #ddd6fe;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .result-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7c3aed;
+    margin-bottom: 10px;
+  }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #ede9fe;
+    font-size: 14px;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-key { color: #888; }
+  .result-val { font-weight: 600; color: #1a1a2e; }
+  .cleared-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #22c55e;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { useState } = React;
+
+  function UserForm() {
+    const [name,  setName]  = useState('');
+    const [email, setEmail] = useState('');
+    const [errors, setErrors] = useState({});
+    const [submitted, setSubmitted] = useState(null);
+
+    const validate = () => {
+      const e = {};
+      if (!name.trim())  e.name  = 'Name is required';
+      if (!email.trim()) e.email = 'Email is required';
+      else if (!/\S+@\S+\.\S+/.test(email)) e.email = 'Enter a valid email';
+      return e;
+    };
+
+    const handleSubmit = () => {
+      const e = validate();
+      if (Object.keys(e).length) { setErrors(e); return; }
+      setSubmitted({ name: name.trim(), email: email.trim() });
+      setName('');
+      setEmail('');
+      setErrors({});
+    };
+
+    return (
+      <div className="wrapper">
+        <div className="card">
+          <h1 className="card-title">User Form</h1>
+          <p className="card-sub">Lab Task 2 — State + Event Handling</p>
+
+          <div className="field">
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Enter your full name"
+              value={name}
+              className={errors.name ? 'error' : ''}
+              onChange={e => { setName(e.target.value); setErrors(ev => ({...ev, name: ''})); }}
+            />
+            {errors.name && <p className="error-msg">{errors.name}</p>}
+          </div>
+
+          <div className="field">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              className={errors.email ? 'error' : ''}
+              onChange={e => { setEmail(e.target.value); setErrors(ev => ({...ev, email: ''})); }}
+            />
+            {errors.email && <p className="error-msg">{errors.email}</p>}
+          </div>
+
+          <button className="submit-btn" onClick={handleSubmit}>
+            Submit →
+          </button>
+
+          {submitted && (
+            <div className="result">
+              <p className="result-title">✓ Submitted Data</p>
+              <div className="result-row">
+                <span className="result-key">Name</span>
+                <span className="result-val">{submitted.name}</span>
+              </div>
+              <div className="result-row">
+                <span className="result-key">Email</span>
+                <span className="result-val">{submitted.email}</span>
+              </div>
+              <p className="cleared-note">✓ Input fields cleared after submission</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<UserForm />);
+</script>
+</body>
+</html>
